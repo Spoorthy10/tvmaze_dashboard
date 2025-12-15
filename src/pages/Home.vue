@@ -1,5 +1,5 @@
 <template>
-  <div class="m-8">
+  <div class="p-8">
     <!-- Loading state -->
     <div v-if="isloading"
       class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-300 opacity-75 flex flex-col items-center justify-center">

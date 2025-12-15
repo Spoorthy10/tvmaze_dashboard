@@ -11,7 +11,7 @@ import Footer from './components/Footer.vue';
 </script>
 
 <template>
-  <!-- <div class="min-h-screen flex flex-col"> -->
+  <div class="min-h-screen flex flex-col">
     <NavBar />
 
     <!-- Page Content -->
@@ -20,7 +20,7 @@ import Footer from './components/Footer.vue';
     </main>
 
     <Footer />
-  <!-- </div> -->
+  </div>
 </template>
 
 <style scoped>

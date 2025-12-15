@@ -1,58 +1,75 @@
 <template>
-  <div class="p-3 max-w-5xl mx-auto rounded-xl bg-gray-200 border border-gray-300 text-black">
+  <div
+    class="p-6 max-w-5xl mx-auto rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 text-black shadow-xl"
+  >
     <!-- Show details -->
-    <div v-if="!loading" class="flex flex-col md:flex-row items-start gap-6">
+    <div v-if="!loading" class="flex flex-col md:flex-row items-start gap-8">
       
-      <!-- Image with lazy loading and alt text -->
-      <div class="relative w-full md:w-80 h-64 md:h-96">
+      <!-- Image -->
+      <div class="relative w-full md:w-80 h-64 md:h-[420px] group">
         <img
           v-if="show.image?.original"
           :src="show.image.original"
-          :alt="`${show.name}`"
-          class="w-full h-full object-cover rounded-xl"
+          :alt="show.name"
+          class="w-full h-full object-cover rounded-2xl shadow-lg transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
         />
-        <!-- Skeleton loader if image not loaded -->
-        <div v-else class="w-full h-full bg-gray-500 animate-pulse rounded-xl"></div>
+        <div v-else class="w-full h-full bg-gray-400 animate-pulse rounded-2xl"></div>
       </div>
 
-      <!-- Text details -->
-      <div class="flex-1 self-start w-full text-left" >
-        <h1 class="text-3xl font-bold mb-3">{{ show.name }}</h1>
+      <!-- Details -->
+      <div class="flex-1 w-full text-left space-y-4">
+        <!-- Title -->
+        <h1 class="text-4xl font-extrabold tracking-tight">
+          {{ show.name }}
+        </h1>
 
-        <p class="mb-2 flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-yellow-400">
-            <path d="M12 2l2.94 6.63L22 9.24l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.11 2 9.24l7.06-0.61L12 2z"/>
-          </svg>
-          {{ show.rating?.average ?? 'No Rating' }}
-        </p>
+        <!-- Rating -->
+        <div class="flex items-center gap-2">
+          <span
+            class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-semibold"
+          >
+            ⭐ {{ show.rating?.average ?? 'No Rating' }}
+          </span>
+        </div>
 
-        <p class="mb-2">
-          <strong>Genres:</strong>
-          <span v-if="show.genres" class="m-1">{{ show.genres.join(', ') }}</span>
-        </p>
+        <!-- Meta info -->
+        <div class="flex flex-wrap gap-4 text-sm text-gray-700">
+          <p><strong>Status:</strong> {{ show.status }}</p>
+          <p><strong>Language:</strong> {{ show.language }}</p>
+        </div>
 
-        <p class="mb-2">
-          <strong>Status:</strong> {{ show.status }}
-        </p>
+        <!-- Genres -->
+        <div class="flex flex-wrap gap-2">
+          <span
+            v-for="genre in show.genres"
+            :key="genre"
+            class="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-medium"
+          >
+            {{ genre }}
+          </span>
+        </div>
 
-        <p class="mb-2">
-          <strong>Language:</strong> {{ show.language }}
-        </p>
-
-        <div class="mt-4 text-sm leading-relaxed" v-html="show.summary"></div>
+        <!-- Summary -->
+        <div
+          class="mt-4 text-sm leading-relaxed text-gray-800 border-l-4 border-teal-400 pl-4"
+          v-html="show.summary"
+        ></div>
       </div>
     </div>
 
-    <!-- Loading state -->
-    <div v-else
-      class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-300 opacity-75 flex flex-col items-center justify-center">
-      <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-600 h-12 w-12 mb-4"></div>
-      <h2 class="text-center text-black text-xl font-semibold">Loading...</h2>
-      <p class="w-1/3 text-center text-black">This may take a few seconds, please wait.</p>
+    <!-- Loading -->
+    <div
+      v-else
+      class="fixed inset-0 z-50 bg-gray-300/70 flex flex-col items-center justify-center"
+    >
+      <div class="animate-spin rounded-full border-4 border-gray-600 border-t-transparent h-12 w-12 mb-4"></div>
+      <h2 class="text-xl font-semibold">Loading...</h2>
+      <p class="text-sm text-gray-700">Fetching show details</p>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted,computed } from 'vue'
