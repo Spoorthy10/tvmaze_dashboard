@@ -1,5 +1,4 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 import './css/tailwind.css'
 import router from './router'
 import NavBar from './components/NavBar.vue';
@@ -13,12 +12,9 @@ import Footer from './components/Footer.vue';
 <template>
   <div class="min-h-screen flex flex-col">
     <NavBar />
-
-    <!-- Page Content -->
     <main class="flex-1 pt-10">
       <RouterView />
     </main>
-
     <Footer />
   </div>
 </template>

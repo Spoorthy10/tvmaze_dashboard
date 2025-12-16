@@ -1,9 +1,10 @@
 <template>
   <div
-    class="p-6 max-w-5xl mx-auto rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 text-black shadow-xl"
-  >
+    class="p-6 max-w-5xl mx-auto rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 text-black shadow-xl mt-5"
+  ><!-- Page Loader -->
+    <Loader :show="isloading" v-if="isloading" title="Loading Show Details..." subTitle="This may take a few seconds, please wait to view the show details."/>
     <!-- Show details -->
-    <div v-if="!loading" class="flex flex-col md:flex-row items-start gap-8">
+    <div v-else class="flex flex-col md:flex-row items-start gap-8">
       
       <!-- Image -->
       <div class="relative w-full md:w-80 h-64 md:h-[420px] group">
@@ -58,21 +59,13 @@
       </div>
     </div>
 
-    <!-- Loading -->
-    <div
-      v-else
-      class="fixed inset-0 z-50 bg-gray-300/70 flex flex-col items-center justify-center"
-    >
-      <div class="animate-spin rounded-full border-4 border-gray-600 border-t-transparent h-12 w-12 mb-4"></div>
-      <h2 class="text-xl font-semibold">Loading...</h2>
-      <p class="text-sm text-gray-700">Fetching show details</p>
-    </div>
   </div>
 </template>
 
 
 <script setup>
-import { ref, onMounted,computed } from 'vue'
+import { ref, onMounted,computed, onBeforeMount } from 'vue'
+import Loader from '../components/Loader.vue'
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
@@ -80,13 +73,13 @@ import { useTvMazeStore } from '../stores/tvmaze'
 const tvmazeStore = useTvMazeStore()
 
 const show = computed(()=> tvmazeStore.showbyID)
-const loading = ref(false)
+const isloading = ref(false)
 
-onMounted(async () => {
-    loading.value = true
+onBeforeMount(async () => {
+  isloading.value = true
   // api call to fetch show details by its id
   await tvmazeStore.get_tvShows(route.params.id)
-    loading.value = false
+  isloading.value = false
 
 })
 </script>
