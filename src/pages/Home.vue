@@ -34,76 +34,38 @@
       <!--when filters is not applied-->
       <div v-if="searched_tvshow?.length == 0">
           <div
-          v-for="(shows, genre) in showsByGenre"
-          :key="genre"
-          class="mb-5 bg-gray-200 p-3 rounded-xl"
+            v-for="(shows, genre) in showsByGenre"
+            :key="genre"
+            class="mb-5 bg-gray-200 p-3 rounded-xl"
           >
-          <h2 class="text-xl font-bold mb-4 text-teal-500 text-left">
+            <h2 class="text-xl font-bold mb-4 text-teal-500 text-left">
               {{ genre }}
-          </h2>
+            </h2>
 
-          <div class="flex gap-4 overflow-x-auto">
-              <div
-              v-for="show in shows"
-              :key="show.id"
-              class="min-w-[180px] cursor-pointer transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl rounded-lg"
-              @click="goToShow(show.id)"
-              >
-              <img
-                  :src="show.image?.medium"
-                  alt=""
-                  class="rounded"
+            <div class="flex gap-4 overflow-x-auto">
+              <ShowCards
+                v-for="show in shows"
+                :key="show.id"
+                :show="show"
+                @click="goToShow(show.id)"
               />
-              <p class="font-semibold">{{ show.name }}</p>
-              <p class="text-sm flex gap-1">
-                  <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="w-5 h-5 text-yellow-400"
-                      >
-                      <path d="M12 2l2.94 6.63L22 9.24l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.11 2 9.24l7.06-0.61L12 2z"/>
-                  </svg>
-                  {{ show.rating?.average ?? 'No Rating' }}</p>
-              </div>
-          </div>
+            </div>
           </div>
       </div>
-      <div v-else> <!--when tv shows are filtered by their name -->
-          <div
-          class="mb-8 bg-gray-200 p-3 rounded-xl"
-          >
+
+      <!-- When filter is applied -->
+      <div v-else class="mb-8 bg-gray-200 p-3 rounded-xl">
           <h2 class="text-xl font-bold mb-4 text-teal-600 capitalize text-start">
-              Shows you searched for
+            Shows you searched for
           </h2>
-
           <div class="flex gap-4 overflow-x-auto">
-              <div
+            <ShowCards
               v-for="show in searched_tvshow"
-              :key="show.id"
-              class="min-w-[180px] cursor-pointer transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
+              :key="show.show.id"
+              :show="show.show"
               @click="goToShow(show.show.id)"
-              >
-              <img
-                  :src="show.show.image?.medium"
-                  :alt="show.show.name"
-                  class="rounded"
-              />
-              <p class="font-semibold">{{ show.show.name }}</p>
-              <p class="text-sm flex gap-1">
-                  <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="w-5 h-5 text-yellow-400"
-                      >
-                      <path d="M12 2l2.94 6.63L22 9.24l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.11 2 9.24l7.06-0.61L12 2z"/>
-                  </svg>
-                  {{ show.show.rating?.average ?? 'No Rating' }}</p>
-              </div>
+            />
           </div>
-          </div>
-
       </div>
     </div>
   </div>
@@ -112,6 +74,7 @@
 <script setup>
 import { onBeforeMount, computed,ref } from 'vue'
 import Loader from '../components/Loader.vue'
+import ShowCards from '../components/ShowCards.vue'
 import { useTvMazeStore } from '../stores/tvmaze'
 const tvmazeStore = useTvMazeStore()
 import { useRouter } from 'vue-router'
