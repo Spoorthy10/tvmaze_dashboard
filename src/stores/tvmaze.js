@@ -11,6 +11,7 @@ export const useTvMazeStore = defineStore('tvmazestore', {
         error: ''
     }),
     actions: {
+        //to get all tv shows of the particular genre and sort it based on the rating provided
         async get_tvShows(id=0) {
             try {
                 if(id == 0){
@@ -49,6 +50,7 @@ export const useTvMazeStore = defineStore('tvmazestore', {
             }
         },
 
+        //to search tv shows based on the filters provided
         async get_tvShow_onSearch(filters='') {
             try {
                 const response = await axios.get(`https://api.tvmaze.com/search/shows?${filters}`)

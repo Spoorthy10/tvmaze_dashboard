@@ -1,5 +1,5 @@
 <template>
-  <!-- Fixed full-width navbar -->
+  <!-- NavBar Component -->
   <nav class="fixed top-0 left-0 w-full z-50 bg-gray-900 text-white shadow-md">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
       <div
@@ -19,8 +19,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const isOpen = ref(false)
 
+// Navigate to Home Page when clicked on the logo
 const goHome = () => {
   router.push('/')
 }

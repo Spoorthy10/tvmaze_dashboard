@@ -6,7 +6,7 @@
     <!-- Show details -->
     <div v-else class="flex flex-col md:flex-row items-start gap-8">
       
-      <!-- Image -->
+      <!-- Image of the show-->
       <div class="relative w-full md:w-80 h-64 md:h-[420px] group">
         <img
           v-if="show.image?.original"
@@ -34,7 +34,7 @@
           </span>
         </div>
 
-        <!-- Meta info -->
+        <!-- show status and language info -->
         <div class="flex flex-wrap gap-4 text-sm text-gray-700">
           <p><strong>Status:</strong> {{ show.status }}</p>
           <p><strong>Language:</strong> {{ show.language }}</p>

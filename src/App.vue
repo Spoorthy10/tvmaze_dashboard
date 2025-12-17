@@ -4,17 +4,17 @@ import router from './router'
 import NavBar from './components/NavBar.vue';
 import Footer from './components/Footer.vue';
 
-// createApp(App)
-//   .use(router)
-//   .mount('#app')
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
+    <!--to get the navigation bar for all the pages-->
     <NavBar />
     <main class="flex-1 pt-10">
+      <!--to render the routed components-->
       <RouterView />
     </main>
+    <!--to get the footer for all the pages-->
     <Footer />
   </div>
 </template>

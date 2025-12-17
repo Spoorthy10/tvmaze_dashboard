@@ -5,7 +5,8 @@
 
     <div v-else>
       <!--Search field, search and clear button-->
-      <div class="flex flex-col md:flex-row gap-2 mb-6">
+      <div class="flex flex-col md:flex-row gap-3 mb-6">
+        <!-- Search Input Field -->
         <input
           v-model="search_show_name"
           type="text"
@@ -13,36 +14,37 @@
           class="w-full md:flex-1 p-2 rounded-lg bg-gray-200 text-black" @keydown.enter="searchShow"
           @keydown.esc="clearFilters"
         />
+        <!--Search and Clear Buttons-->
+        <div class="flex gap-2 w-full md:w-auto">
+          <button
+            class="w-full md:w-auto px-4 py-2 bg-blue-600 text-gray-300 rounded-lg font-medium hover:bg-gray-200 disabled:opacity-70"
+          >
+            Search
+          </button>
 
-        <div class="flex gap-2">
-    <button
-      class="px-4 py-2 bg-blue-600 text-gray-300 rounded-lg font-medium hover:bg-gray-200 disabled:opacity-70 whitespace-nowrap"
-      @click="searchShow"
-      :disabled="!search_show_name"
-    >
-      Search
-    </button>
-
-    <button
-      class="px-4 py-2 bg-gray-500 text-gray-800 rounded-lg font-medium hover:bg-red-500 whitespace-nowrap"
-      @click="clearFilters"
-    >
-      Clear
-    </button>
-  </div>
+          <button
+            class="w-full md:w-auto px-4 py-2 bg-gray-500 text-gray-800 rounded-lg font-medium hover:bg-red-500"
+          >
+            Clear
+          </button>
+        </div>
       </div>
       <!--when filters is not applied-->
       <div v-if="searched_tvshow?.length == 0">
           <div
             v-for="(shows, genre) in showsByGenre"
             :key="genre"
-            class="mb-5 bg-gray-200 p-3 rounded-xl"
+            class="mb-5 bg-gray-200 p-3 sm:p-4 rounded-xl"
           >
-            <h2 class="text-xl font-bold mb-4 text-teal-500 text-left">
+          <!--Genre Title-->
+            <h2 class="text-lg sm:text-xl font-bold mb-4 text-teal-500 text-left">
               {{ genre }}
             </h2>
 
-            <div class="flex gap-4 overflow-x-auto">
+            <div
+              class="flex flex-nowrap gap-4 overflow-x-auto pb-2"
+            >
+            <!--Tv Show Cards of the Genre-->
               <ShowCards
                 v-for="show in shows"
                 :key="show.id"
@@ -55,10 +57,12 @@
 
       <!-- When filter is applied -->
       <div v-else class="mb-8 bg-gray-200 p-3 rounded-xl">
+        <!--heading when user searches for a show-->
           <h2 class="text-xl font-bold mb-4 text-teal-600 capitalize text-start">
             Shows you searched for
           </h2>
-          <div class="flex gap-4 overflow-x-auto">
+          <!--displaying the searched tv shows-->
+          <div class="flex flex-nowrap gap-4 overflow-x-auto pb-2">
             <ShowCards
               v-for="show in searched_tvshow"
               :key="show.show.id"
@@ -93,6 +97,7 @@ const searchShow=async()=>{
     }
   isloading.value = false
 }
+//
 
 //to clear the applied filters
 const clearFilters=async()=>{
@@ -102,14 +107,17 @@ const clearFilters=async()=>{
     await tvmazeStore.get_tvShows()
   isloading.value = false
 }
+//
 
 //to navigate to the particular show information
 const goToShow = (id) => {
   router.push(`/show/${id}`)
 }
+//
 
 //tvshows computed value
 const showsByGenre = computed(() => tvmazeStore.showsByGenre)
+//
 
 onBeforeMount(async() => {
   isloading.value = true
